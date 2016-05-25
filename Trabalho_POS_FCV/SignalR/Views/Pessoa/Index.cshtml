@@ -10,48 +10,80 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nacionalidade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoCivil)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Inativo)
-        </th>
-        <th></th>
-    </tr>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nacionalidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoCivil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idade)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nacionalidade)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoCivil)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Inativo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Idade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nacionalidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoCivil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inativo)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+@section scripts{
+    <script>
+        conn.client.refresh = function (list) {
+            var html = '';
+
+            $.each(list, function (k, v) {
+                html += [
+                    '<tr>',
+                    '<td>' + v.Nome + '</td>',
+                    '<td>' + v.Idade + '</td>',
+                    '<td>' + v.Nacionalidade + '</td>',
+                    '<td>' + v.EstadoCivil + '</td>',
+                    '<td>' + v.Inativo + '</td>',
+                    '<td>',
+                    '<a href="@Url.Action("Edit")/' + v.Id + '">Edit</a> |',
+                    '<a href="@Url.Action("Details")/' + v.Id + '">Details</a> |',
+                    '<a href="@Url.Action("Delete")/' + v.Id + '">Delete</a>',
+                    '</td>',
+                    '<tr>'
+                ].join('');
+            });
+
+            $('table tbody').empty().append(html);
+        }
+    </script>
+}

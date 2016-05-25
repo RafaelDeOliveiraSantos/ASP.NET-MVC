@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
+using SignalR.Hubs;
 using SignalR.Models;
 
 namespace SignalR.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class PessoaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
 
         // GET: /Pessoa/
         public async Task<ActionResult> Index()
@@ -53,7 +53,10 @@ namespace SignalR.Controllers
             {
                 db.PessoaModels.Add(pessoamodel);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+
+                hubContext.Clients.All.todoCreated(@"Cadastro de Pessoa atualizado. Registro incluído.");
+                
+               return RedirectToAction("Index");
             }
 
             return View(pessoamodel);
@@ -85,6 +88,9 @@ namespace SignalR.Controllers
             {
                 db.Entry(pessoamodel).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+
+                hubContext.Clients.All.todoModified(@"Cadastro de Pessoa atualizado. Registro alterado.");
+
                 return RedirectToAction("Index");
             }
             return View(pessoamodel);
@@ -113,6 +119,9 @@ namespace SignalR.Controllers
             PessoaModel pessoamodel = await db.PessoaModels.FindAsync(id);
             db.PessoaModels.Remove(pessoamodel);
             await db.SaveChangesAsync();
+
+            hubContext.Clients.All.todoDeleted(@"Cadastro de Pessoa atualizado. Registro excluído.");
+
             return RedirectToAction("Index");
         }
 

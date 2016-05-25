@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using Microsoft.AspNet.SignalR;
 using SignalR.Models;
 
@@ -11,7 +8,7 @@ namespace SignalR.Hubs
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public void Hello()
+        public void Refresh()
         {            
             Clients.Caller.Refresh(db.PessoaModels.ToList());
         }
