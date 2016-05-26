@@ -15,6 +15,8 @@ namespace SignalR.Models
         {
         }
 
-        public System.Data.Entity.DbSet<SignalR.Models.PessoaModel> PessoaModels { get; set; }        
+        public System.Data.Entity.DbSet<SignalR.Models.PessoaModel> PessoaModels { get; set; }
+
+        public System.Data.Entity.DbSet<SignalR.Models.TarefaModel> TarefaModels { get; set; }        
     }
 }

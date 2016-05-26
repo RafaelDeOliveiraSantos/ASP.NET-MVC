@@ -42,25 +42,46 @@
     <script src="/signalr/hubs"></script>
     
     <script>
-        var conn = $.connection.notificationHub;
+        var connPessoa = $.connection.pessoaHub;
 
-        conn.client.todoCreated = function (msg) {
+        var connTarefa = $.connection.tarefaHub;
+
+        connPessoa.client.todoCreated = function (msg) {
             notify(msg);
-            conn.server.refresh();
+            connPessoa.server.refresh();
         };
 
-        conn.client.todoModified = function (msg) {
+        connPessoa.client.todoModified = function (msg) {
             notify(msg);
-            conn.server.refresh();
+            connPessoa.server.refresh();
         };
 
-        conn.client.todoDeleted = function (msg) {
+        connPessoa.client.todoDeleted = function (msg) {
             notify(msg);
-            conn.server.refresh();
+            connPessoa.server.refresh();
         };
 
-        conn.client.error = function (msg) {
+        connPessoa.client.error = function (msg) {
             notify(msg);
+        };
+
+        connTarefa.client.todoDone = function (msg) {
+            notify(msg);
+        };        
+
+        connTarefa.client.todoCreated = function (msg) {
+            notify(msg);
+            connTarefa.server.refresh();
+        };
+
+        connTarefa.client.todoModified = function (msg) {
+            notify(msg);
+            connTarefa.server.refresh();
+        };
+
+        connTarefa.client.todoDeleted = function (msg) {
+            notify(msg);
+            connTarefa.server.refresh();
         };
 
         $.connection.hub.start();

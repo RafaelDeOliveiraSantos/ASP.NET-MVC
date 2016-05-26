@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<SignalR.Models.PessoaModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pessoas";
 }
 
-<h2>Index</h2>
+<h2>Pessoas</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -47,7 +47,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.EstadoCivil)
                 </td>
-                <td>
+                <td id="@item.Id">
                     @Html.DisplayFor(modelItem => item.Inativo)
                 </td>
                 <td>
@@ -63,17 +63,18 @@
 
 @section scripts{
     <script>
-        conn.client.refresh = function (list) {
+        connPessoa.client.refresh = function (list) {
             var html = '';
 
             $.each(list, function (k, v) {
+                var ativo = '<input type="checkbox" ' + (v.Inativo ? 'checked' : '') + ' disabled />';
                 html += [
                     '<tr>',
                     '<td>' + v.Nome + '</td>',
                     '<td>' + v.Idade + '</td>',
                     '<td>' + v.Nacionalidade + '</td>',
                     '<td>' + v.EstadoCivil + '</td>',
-                    '<td>' + v.Inativo + '</td>',
+                    '<td id="' + v.Id + '">' + ativo + '</td>',
                     '<td>',
                     '<a href="@Url.Action("Edit")/' + v.Id + '">Edit</a> |',
                     '<a href="@Url.Action("Details")/' + v.Id + '">Details</a> |',

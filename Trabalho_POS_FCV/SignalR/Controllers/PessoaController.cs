@@ -1,19 +1,31 @@
-﻿using System.Data.Entity;
-using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
+//****** template t4 ******
+using SignalR.Models;
 using Microsoft.AspNet.SignalR;
 using SignalR.Hubs;
+//****** template t4 ******
 using SignalR.Models;
 
 namespace SignalR.Controllers
 {
-    [System.Web.Mvc.Authorize]
+	//****** template t4 ******
+	[System.Web.Mvc.Authorize]
+	//****** template t4 ******	
     public class PessoaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+		//****** template t4 ******
+		IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<PessoaHub>();
+		//****** template t4 ******
 
         // GET: /Pessoa/
         public async Task<ActionResult> Index()
@@ -55,8 +67,8 @@ namespace SignalR.Controllers
                 await db.SaveChangesAsync();
 
                 hubContext.Clients.All.todoCreated(@"Cadastro de Pessoa atualizado. Registro incluído.");
-                
-               return RedirectToAction("Index");
+
+                return RedirectToAction("Index");
             }
 
             return View(pessoamodel);
