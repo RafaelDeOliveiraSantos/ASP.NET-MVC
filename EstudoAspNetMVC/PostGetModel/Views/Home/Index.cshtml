@@ -1,0 +1,75 @@
+﻿@model PostGetModel.Models.Pessoa
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@*Usando Helpers*@
+@using (Html.BeginForm("Lista", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Pessoa</legend>
+        <div>
+            @Html.LabelFor(x => x.PessoaId)
+        </div>
+        <div>
+            @Html.EditorFor(x => x.PessoaId)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Nome)
+        </div>
+        <div>
+            @Html.EditorFor(x => x.Nome)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Twitter)
+        </div>
+        <div>
+            @Html.EditorFor(x => x.Twitter)
+        </div>      
+
+        <p><input type="submit" value="Enviar" /></p>
+    </fieldset>
+}
+@*---------------------------------------------------- Sem uso de helpers -------------------------------------------------*@
+@*<form action="Home/Lista" method="post">
+        <fieldset>
+            <legend>Pessoa</legend>
+            <div>
+                <label for="PessoaId">Código</label>
+            </div>
+            <div>
+                <input type="number" value="@Model.PessoaId" id="PessoaId" name="PessoaId"/>
+            </div>
+            <div>
+                <label for="Nome">Nome</label>
+            </div>
+            <div>
+                <input type="text" value="@Model.Nome" id="Nome" name="Nome" />
+            </div>
+            <div>
+                <label for="Twitter">Twitter</label>
+            </div>
+            <div>
+                <input type="text" value="@Model.Twitter" id="Twitter" name="Twitter" />
+            </div>
+            <p><input type="submit" value="Enviar"/></p>
+        </fieldset>
+    </form>*@
+
+@*<p>"********** ViewData</p>
+    <p>@ViewData["PessoaId"]</p>
+    <p>@ViewData["Nome"]</p>
+    <p>@ViewData["Twitter"]</p>
+
+    <p>*********** ViewBag</p>
+    <p>@ViewBag.PessoaId</p>
+    <p>@ViewBag.Nome</p>
+    <p>@ViewBag.Twitter</p>*@
+
+@*<p>*********** View Tipada</p>
+    <p>@Model.PessoaId</p>
+    <p>@Model.Nome</p>
+    <p>@Model.Twitter</p>*@

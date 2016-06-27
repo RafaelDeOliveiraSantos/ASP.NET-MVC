@@ -1,0 +1,50 @@
+﻿@model PostGetModel.Models.Pessoa
+
+@{
+    ViewBag.Title = "Lista";
+}
+
+<h2>Lista</h2>
+@*Usando Helpers e View Tipada*@
+<div>
+    <b>@Html.LabelFor(x => x.PessoaId)</b>
+</div>
+<div>
+    @Model.PessoaId
+</div>
+<div>
+    <b>@Html.LabelFor(x => x.Nome)</b>
+</div>
+<div>
+    @Model.Nome
+</div>
+<div>
+    <b>@Html.LabelFor(x => x.Twitter)</b>
+</div>
+<div>
+    @Model.Twitter
+</div>
+
+@Html.ActionLink("Voltar", "Index", "Home")
+
+@*----------------------------------------------- SEM HELPERS E VIEW TIPADA @*----------------------------------------------- *@
+@*<div>
+    <b>PessoaId</b>
+</div>
+<div>
+    @ViewData["PessoaId"]
+</div>
+<div>
+    <b>Nome</b>
+</div>
+<div>
+    @ViewData["Nome"]
+</div>
+<div>
+    <b>Twitter</b>
+</div>
+<div>
+    @ViewData["Twitter"]
+</div>
+
+<a href="~/" title="Voltar">Voltar</a>*@
