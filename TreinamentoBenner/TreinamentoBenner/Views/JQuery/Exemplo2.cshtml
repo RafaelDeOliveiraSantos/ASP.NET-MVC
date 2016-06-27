@@ -1,0 +1,35 @@
+﻿@section scripts {
+    <script>
+        $(function() {
+            $("[language='German'], [language='English']").hide();
+            $("[language='Portuguese']").show();
+
+            $("a[lang]").click(function() {
+                $("[language]").hide();
+                $("[language=" + $(this).attr('lang') + "]").show();
+            });
+
+            $(".tipo").each(function() {
+                if ($(this).is("h1")) {
+                    $(this).css({
+                        backgroundColor: 'red'
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+
+<h1 class="tipo" language="Portuguese">Selecionando elementos</h1>
+<h1 language="English">Selecting elements</h1>
+<h1 language="German">Auwählen von elements</h1>
+
+<a class="tipo" href="javascript:;" lang="Portuguese">Português</a>
+<a href="javascript:;" lang="English">English</a>
+<a href="javascript:;" lang="German">German</a>
+
+
+<p language="Portuguese">Olá mundo!</p>
+<p language="English">Hello world!</p>
+<p language="German">Hallo welt!</p>

@@ -1,0 +1,11 @@
+﻿@section scripts {
+    <script>
+        $(function () {
+            $(document).keyup(function() {
+                $("#log").append(String.fromCharCode(event.keyCode) + " - ");
+            });
+        });
+
+    </script>
+}
+<div id="log"></div>

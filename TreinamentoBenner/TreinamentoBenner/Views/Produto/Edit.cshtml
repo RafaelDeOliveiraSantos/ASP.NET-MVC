@@ -1,0 +1,49 @@
+﻿<h3>{{tilte}}</h3>
+
+<hr />
+
+<form>
+    <strong class="error" ng-bind="Error"></strong>
+
+    <div class="form-group">
+        <label for="Id">
+            Código
+        </label>
+        <input type="text"
+               class="form-control"
+               readonly="readonly"
+               id="Id"
+               ng-model="Produto.Id" />
+    </div>
+
+    <div class="form-group">
+        <label for="Nome">
+            Nome
+        </label>
+        <input type="text"
+               class="form-control"
+               id="Nome"
+               ng-model="Produto.Nome" />
+    </div>
+
+    <div class="form-group">
+        <label for="Valor">
+            Valor
+        </label>
+        <input type="text"
+               class="form-control"
+               id="Valor"
+               ng-model="Produto.Valor" />
+    </div>
+
+    <div class="form-group checkbox">
+        <label>
+            <input type="checkbox" ng-model="Produto.Ativo" />Ativo
+        </label>
+    </div>
+
+    <a href="#list" class="btn btn-info">Voltar</a>
+    <button type="submit" class="btn btn-default" ng-click="save()">Salvar</button>
+
+
+</form>

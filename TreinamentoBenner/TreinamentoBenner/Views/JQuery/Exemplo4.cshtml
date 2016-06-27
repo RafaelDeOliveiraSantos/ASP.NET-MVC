@@ -1,0 +1,25 @@
+﻿@section scripts {
+    <script>
+        $(function () {
+            $("p").each(function (i) {
+                $("#elemento").append(
+                    new Option($(this).html(), i+1)
+                );
+            });
+        });
+
+        function seleciona(indice) {
+            alert($("p").slice(indice - 1, indice).html());
+        }
+    </script>
+}
+
+
+<p>Parágrafo 1</p>
+<p>Parágrafo 2</p>
+<p>Parágrafo 3</p>
+<p>Parágrafo 4</p>
+<select id="elemento"></select>
+<input type="button"
+       value="Selecionando elementos"
+       onclick="seleciona($('#elemento').val())" />

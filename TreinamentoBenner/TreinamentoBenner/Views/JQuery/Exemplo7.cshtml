@@ -1,0 +1,29 @@
+﻿@section scripts {
+    <script>
+        $(function () {
+            $("table tr:even").not(":first").css("background-color", "#ccc");
+            var corAntiga;
+            $("table tr").not(":first").hover(function () {
+                corAntiga = $(this).css("background-color");
+                $(this)
+                    .css("background-color", "yellow")
+                    .css("cursor", "pointer");
+            }, function () {
+                $(this)
+                    .css("background-color", corAntiga);
+                //.css("cursor", "default");
+            });
+        });
+
+    </script>
+}
+
+<table>
+    <tr><th>Bibliotecas</th></tr>
+    <tr><th>jQuery</th></tr>
+    <tr><th>Bootbox</th></tr>
+    <tr><th>Dojo</th></tr>
+    <tr><th>Script.aculo.us</th></tr>
+    <tr><th>AngularJS</th></tr>
+</table>
+

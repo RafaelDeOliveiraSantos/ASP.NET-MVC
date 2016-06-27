@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Produto";
+}
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/angular.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/angular-route.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Produto/produtoController.js")"></script>
+}
+
+<h2>@ViewBag.Title</h2>
+<div ng-app="app">
+    <div class="ng-view"></div>
+</div>
+

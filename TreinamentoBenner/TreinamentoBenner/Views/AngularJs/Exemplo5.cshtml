@@ -1,0 +1,54 @@
+﻿<script src="~/Scripts/angular.min.js"></script>
+<style>
+    .sortorder:after {content: '\25b2'}
+    .sortorder.reverse:after {content: '\25bc'}
+</style>
+
+<div ng-app="myApp" ng-controller="clientCtrl" ng-init="field='Name'">
+
+
+    <table>
+        <tr>
+            <th ng-click="order('Name')">
+                Nome
+                <span class="sortorder" 
+                      ng-class="{reverse:reverso}"
+                      ng-show="field==='Name'"></span>
+            </th>
+            <th ng-click="order('City')">
+                Cidade
+                <span class="sortorder"
+                      ng-class="{reverse:reverso}"
+                      ng-show="field==='City'"></span>
+            </th>
+            <th ng-click="order('Country')">
+                País
+                <span class="sortorder"
+                      ng-class="{reverse:reverso}"
+                      ng-show="field==='Country'"></span>
+            </th>
+
+        </tr>
+        <tr ng-repeat="cliente in clientes | orderBy : field:reverso">
+            <td ng-bind="cliente.Name"></td>
+            <td ng-bind="cliente.City"></td>
+            <td ng-bind="cliente.Country"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+    app.controller("clientCtrl", function($scope, $http) {
+        $http.get("http://www.w3schools.com/angular/customers.php").success(function(response) {
+            $scope.clientes = response.records;
+        });
+
+        $scope.reverso = true;
+        $scope.order = function(field) {
+            $scope.reverso = ($scope.field === field) ? !$scope.reverso : false;
+            $scope.field = field;
+        }
+    });
+</script>
+

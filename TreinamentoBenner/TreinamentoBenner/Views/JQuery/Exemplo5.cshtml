@@ -1,0 +1,16 @@
+﻿@section scripts {
+    <script>
+        $(function () {
+            $("p:contains('Você ganhou')")
+                .append("<strong>R$ 1,00</strong>")
+                .before("<p>Novo elemento antes</p>")
+                .after("<p>Novo elemento depois</p>");
+        });
+
+    </script>
+}
+
+<p>Você ganhou </p>
+<p>Você não ganhou</p>
+<p>Você não ganhou</p>
+

@@ -1,0 +1,21 @@
+﻿@section scripts {
+    <script>
+        $(function() {
+            $("#principal").click(function() {
+                var statusAtual = $(this).is(":checked");
+                $("input[type=checkbox]").not($(this)).each(function() {
+                    $(this).prop("checked", statusAtual);
+                });
+            });
+        });
+    </script>
+}
+
+
+<input type="checkbox" id="principal"/>
+<hr/>
+<input type="checkbox"/><br />
+<input type="checkbox"/><br />
+<input type="checkbox"/><br />
+<input type="checkbox"/><br />
+<input type="checkbox"/><br />

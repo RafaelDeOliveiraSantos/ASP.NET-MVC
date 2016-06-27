@@ -1,0 +1,155 @@
+﻿@*@model IEnumerable<TreinamentoBenner.Core.Model.Artista>*@
+@{
+    ViewBag.Title = "Artista";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/angular.min.js")"></script>
+    @Scripts.Render("~/bundles/SignalR")
+    <script src="/signalr/hubs"></script>
+}
+
+<h2>@ViewBag.Title</h2>
+<div ng-app="app" ng-controller="Controller">
+    <table class="table">
+        <tr>
+            <th><a ng-click="predicate='Id'">#</a></th>
+            <th><a ng-click="predicate='Nome'">Nome</a></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="artista in artistas | orderBy:predicate">
+            <td ng-bind="artista.Id"></td>
+            <td ng-show="!isEdit(artista)" ng-bind="artista.Nome"></td>
+            <td ng-show="isEdit(artista)">
+                <input type="text" ng-model="edit_artista.Nome" />
+            </td>
+            <td>
+                <button name="deleteButton"
+                        ng-click="delete(artista)"
+                        ng-show="!artista.IsLocked">
+                    Excluir
+                </button>
+            </td>
+            <td>
+                <button name="editButton"
+                        ng-click="edit(artista)"
+                        ng-show="!artista.IsLocked">
+                    Editar
+                </button>
+                <button name="updateButton"
+                        ng-click="update()"
+                        ng-show="isEdit(artista)">
+                    Atualizar
+                </button>
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="text" ng-model="add_artista.Nome" /></td>
+            <td colspan="2"><button name="addButton" ng-click="add()">Adicionar</button></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+
+    var app = angular.module("app", []);
+    app.controller("Controller", function ($scope) {
+        var hubProxy = $.connection.artistaHub;
+
+        //AngularJs Events
+        $scope.add = function () {
+            hubProxy.server.add($scope.add_artista);
+            $scope.add_artista = "";
+        }
+        $scope.delete = function (artista) {
+            hubProxy.server.delete(artista);
+        }
+        $scope.edit = function (artista) {
+            hubProxy.server.takeLock(artista);
+        }
+        $scope.update = function () {
+            hubProxy.server.update($scope.edit_artista);
+            $scope.edit_artista = undefined;
+        }
+        $scope.isEdit = function (artista) {
+            if ($scope.edit_artista === undefined)
+                return false;
+            return artista.Id === $scope.edit_artista.Id;
+        }
+
+        //SignalR Eventos
+        hubProxy.client.add = function (artista) {
+            $scope.artistas.push(artista);
+            $scope.$apply();
+        }
+        hubProxy.client.all = function (artistas) {
+            $scope.artistas = artistas;
+        }
+        hubProxy.client.delete = function (artista) {
+            removeById(artista.Id, $scope.artistas);
+            $scope.$apply();
+        }
+        hubProxy.client.takeLockSuccess = function (artista) {
+            $scope.edit_artista = artista;
+            $scope.$apply();
+        }
+        hubProxy.client.update = function (artista) {
+            updateById(artista.Id, $scope.artistas, artista);
+        }
+
+        hubProxy.client.allLocks = function (locks) {
+            for (var i = 0; i < $scope.artistas.length; i++) {
+                $scope.artistas[i].IsLocked = false;
+            }
+            for (var i = 0; i < locks.length; i++) {
+                for (var j = 0; j < $scope.artistas.length; j++) {
+                    if (locks[i] === $scope.artistas[j].Id) {
+                        $scope.artistas[j].IsLocked = true;
+                        break;
+                    }
+                }
+            }
+            $scope.$apply();
+        }
+        $.connection.hub.logging = true;
+        $.connection.hub.start().done(function () {
+            console.log('hub.start.done');
+        }).fail(function (error) {
+            console.log(error);
+        });
+    });
+
+    function removeById(id, array) {
+        for (var index = 0; index < array.length; index++) {
+            if (id === array[index].Id) {
+                array.splice(index, 1);
+            }
+        }
+    }
+
+    function updateById(id, array, item) {
+        for (var index = 0; index < array.length; index++) {
+            if (id === array[index].Id) {
+                array[index] = item;
+            }
+        }
+    }
+</script>
+
+
+@*<table class="table table-responsive table-hover table-striped">
+        <tr>
+            <th>#</th>
+            <th>Nome</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Nome</td>
+            </tr>
+        }
+    </table>*@

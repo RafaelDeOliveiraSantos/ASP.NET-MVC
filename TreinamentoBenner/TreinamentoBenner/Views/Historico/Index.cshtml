@@ -1,0 +1,25 @@
+﻿@model DateTime
+@{
+    ViewBag.Title = "Index";
+    string outroNome = ViewData["OutroNome"] as string;
+
+    string alerta = "<strong>Teste</strong>";
+}
+
+@section scripts
+{
+    <script>
+        alert('Olá');
+    </script>
+}
+
+<h2>Index</h2>
+
+@ViewBag.Nome
+
+Hoje é @Model.DayOfWeek
+
+@outroNome
+
+@Html.Raw(alerta)
+

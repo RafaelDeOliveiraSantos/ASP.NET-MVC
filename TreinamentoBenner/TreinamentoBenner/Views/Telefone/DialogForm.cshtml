@@ -1,0 +1,20 @@
+﻿@model TreinamentoBenner.Core.Model.Telefone
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.Id, new { id = "TelefoneId" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Numero, new { @for = "TelefoneNumero" })
+            @Html.EditorFor(model => model.Numero, new
+        {
+           htmlAttributes = new 
+           {
+               @class = "form-control",
+               id = "TelefoneNumero"
+           }
+       })
+        </div>
+    }
+</div>

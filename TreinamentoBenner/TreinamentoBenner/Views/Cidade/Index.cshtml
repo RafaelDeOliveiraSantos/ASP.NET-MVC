@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Cidade";
+}
+@section scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/Cidade/cidadeController.js"></script>
+    <script>
+        app.factory("params", function () {
+            return {
+                urlList: "@Url.Action("AjaxList")",
+                urlAdd: "@Url.Action("AjaxAdd")",
+                urlRemove: "@Url.Action("AjaxRemove")"
+            };
+        });
+    </script>
+}
+<h2>@ViewBag.Title</h2>
+
+<div ng-app="app" ng-controller="CidadeController">
+    <form ng-submit="add()">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label>
+                    Cidade
+                    <input type="text" ng-model="cidade.Nome" class="form-control" />
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    Estado
+                    <input type="text" ng-model="cidade.Uf" class="form-control" />
+                </label>
+
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="{{editting ? 'Alterar': 'Adicionar'}}" />
+                <input class="btn" type="button" ng-show="editing" ng-click="cancel()" value="Cancelar" />
+
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="cidade in cidades">
+                <td>{{cidade.Id}}</td>
+                <td>{{cidade.Nome}}</td>
+                <td>{{cidade.Uf}}</td>
+                <td>
+                    <a href="javascript:;" ng-click="edit(cidade)">Editar</a>
+                    <a href="javascript:;" ng-click="remove(cidade)">Excluir</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

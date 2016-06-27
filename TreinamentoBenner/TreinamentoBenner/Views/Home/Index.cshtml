@@ -1,0 +1,39 @@
+﻿@section scripts
+{
+    <script>
+        $(function() {
+            $.ajaxSetup({
+                cache: false
+            });
+        });
+
+        function atualizar() {
+            $.get("@Url.Action("Index", "Ajax")", function(data) {
+                $("#alvo").html(data);
+            });
+        }
+    </script>
+}
+<input type="button" onclick=" atualizar() " value="Atualizar"/>
+<div id="alvo"></div>
+
+
+
+@*@{
+    ViewBag.Title = "Home Page";
+}
+
+@helper ListingItems(string[] items)
+{
+    <ul>
+        @foreach (string item in items)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+<h3>Linguagens de Programação</h3>
+@ListingItems(new [] {"C", "C++", "C#"})
+
+<h3>Lista de Livros</h3>
+@ListingItems(new[] { "C for Dummies", "C++ for Dummies", "C# for Dummies" })*@

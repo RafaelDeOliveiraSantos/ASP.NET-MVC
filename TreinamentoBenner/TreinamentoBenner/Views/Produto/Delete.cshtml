@@ -1,0 +1,30 @@
+﻿<h3>Você tem certeza que deseja excluir o item {{Produto.Nome}}</h3>
+<hr />
+<form class="form-horizontal">
+    <div class="form-group">
+        <label>
+            Nome
+        </label>
+        <p class="form-control-static" ng-bind="Produto.Nome"></p>
+    </div>
+    <div class="form-group">
+        <label>
+            Valor
+        </label>
+        <p class="form-control-static" ng-bind="Produto.Valor"></p>
+    </div>
+    <div class="form-group">
+        <div>
+            <span class="label"
+                  ng-class="{true:'label-success', false:'label-danger', '':'hidden'}[Produto.Ativo]"
+                  ng-bind="Produto.Ativo ? 'Ativo' : 'Descontinuado'"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <a href="#list" class="btn btn-info">Voltar</a>
+            <button type="submit" class="btn btn-danger" ng-click="delete()">Excluir</button>
+        </div>
+    </div>
+</form>

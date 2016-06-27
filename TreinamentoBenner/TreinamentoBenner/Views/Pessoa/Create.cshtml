@@ -1,0 +1,90 @@
+﻿@model TreinamentoBenner.Core.Model.Pessoa
+
+@{
+    ViewBag.Title = "Pessoa";
+}
+@section scripts {
+    <script src="@Url.Content("~/Scripts/Pessoa/scriptCidade.js")"></script>
+    <script src="@Url.Content("~/Scripts/Pessoa/scriptTelefone.js")"></script>
+    <script>
+        var scriptCidade, scriptTelefone;
+
+        var idPessoa = @Model.Id;
+
+        var urlCidade = "@Url.Action("AjaxOption","Cidade")";
+
+        //Telefone
+        var urlTelefoneAdicionar = "@Url.Action("AjaxAdd", "Telefone")";
+        var urlTelefoneRemover = "@Url.Action("AjaxRemove", "Telefone")";
+        var urlTelefoneListar = "@Url.Action("AjaxList", "Telefone", new { Model.Id })";
+
+        function abrirDialogTelefone() {
+            scriptTelefone.abrirDialog();
+        }
+        function excluirTelefone(id) {
+            scriptTelefone.excluir(id);
+        }
+        function alterarTelefone(id, numero) {
+            scriptTelefone.alterar(id, numero);
+        }
+
+        $(function () {
+            scriptCidade = new ScriptCidade("Ufs", "IdCidade", urlCidade);
+            scriptCidade.iniciar();
+            
+            scriptTelefone = new ScriptTelefone(idPessoa, urlTelefoneAdicionar,urlTelefoneRemover, urlTelefoneListar);
+            scriptTelefone.iniciar();
+        });
+    </script>
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome)
+            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cidade)
+            <div class="form-inline">
+                @Html.DropDownList("Ufs", null, "", new { @class = "form-control" })
+                @Html.DropDownList("IdCidade", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            <input type="submit" value="Create" class="btn btn-default" />
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
+
+        </div>
+    </div>
+    if (Model.Id > 0)
+    {
+        <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#tab-telefone" role="tab" data-toggle="tab">Telefone</a>
+                </li>
+            </ul>
+
+            <ul class="tab-content">
+                <li role="tabpanel" class="tab-pane active" id="tab-telefone">
+                    @Html.Action("AjaxList", "Telefone", new { Model.Id })
+                </li>
+            </ul>
+        </div>
+    }
+}
+
+<div id="dialogTelefone">
+    @Html.Action("DialogForm", "Telefone")
+</div>
+
+

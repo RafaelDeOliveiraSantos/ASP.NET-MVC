@@ -1,0 +1,53 @@
+﻿@section scripts
+{
+    <script>
+        function alternar () {
+            $("p:first").toggleClass("listrado");
+        }
+
+        $(function() {
+            $("div.red").click(function() {
+                $(this).hide('slow');
+            })
+        })
+
+        function mostrar() {
+            $("div.red").show('slow');
+        }
+    </script>
+    <style type="text/css">
+        p.listrado {
+            background-color: gray;
+        }
+
+        .red {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin: 10px;
+        }
+        .clear { clear: both;}
+    </style>
+}
+
+<div>
+    <p>Paragrafo 1</p>
+    <p>Paragrafo 2</p>
+    <p id="paragrafo">Paragrafo 3</p>
+    <p>Paragrafo 4</p>
+
+    <input type="button" value="Alternar" onclick=" alternar() "/>
+</div>
+
+<div>
+    <div>
+        <div class="red"></div>
+        <div class="red"></div>
+        <div class="red"></div>
+        <div class="red"></div>
+    </div>
+    <div class="clear">
+        <input type="button" value="Mostrar" onclick="mostrar()"/>
+    </div>
+</div>

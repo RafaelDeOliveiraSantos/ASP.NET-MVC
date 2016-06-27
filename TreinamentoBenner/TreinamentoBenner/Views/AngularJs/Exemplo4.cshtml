@@ -1,0 +1,24 @@
+﻿<script src="~/Scripts/angular.min.js"></script>
+<div ng-app ng-init="nome='Danilo';cidades=[{nome:'Maringa',uf:'PR'},{nome:'Anta Gorda', uf:'RS'}]">
+
+    <p>Uppercase {{nome | uppercase}}</p>
+    <p>Lowercase {{nome | lowercase}}</p>
+
+    <input type="number" ng-model="quantidade"/>
+    <input type="number" ng-model="valor"/>
+
+    <p>Total = {{quantidade * valor | currency : 'R$ '}}</p>
+
+    <ul>
+        <li ng-repeat="cidade in cidades | orderBy:'nome'">{{cidade.nome}}</li>
+    </ul>
+
+    <p><input type="text" ng-model="busca" placeholder="Busca de cidade"/>
+    </p>
+
+    <ul>
+        <li ng-repeat="cidade in cidades | filter:busca | orderBy:'nome'">{{cidade.nome | uppercase}}</li>
+    </ul>
+
+</div>
+

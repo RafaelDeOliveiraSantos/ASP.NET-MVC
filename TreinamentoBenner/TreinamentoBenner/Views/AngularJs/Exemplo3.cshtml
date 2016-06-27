@@ -1,0 +1,14 @@
+﻿<script src="~/Scripts/angular.min.js"></script>
+<div ng-app>
+    <div ng-init="nomes=['Joselito', 'Danilo', 'Valcilucicleide']">
+        <ul>
+            <li ng-repeat="nome in nomes">{{nome}}</li>
+        </ul>
+    </div>
+
+    <div ng-init="cidades=[{nome:'Maringá', uf:'PR'}, {nome: 'Angra dos Reis', uf:'RJ'}]">
+        <li ng-repeat="cidade in cidades">{{cidade.nome}} {{cidade.uf}}</li>
+    </div>
+
+</div>
+

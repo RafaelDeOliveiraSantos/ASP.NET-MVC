@@ -1,0 +1,9 @@
+﻿<script src="~/Scripts/angular.min.js"></script>
+<div ng-app ng-init="quantidade=1;valor=5;pessoa={primeiroNome:'Danilo',ultimoNome:'Silva'}">
+    <p>2 + 2 = {{2+2}}</p>
+    <p>Total = {{quantidade * valor}}</p>
+
+    <p>Total: <span ng-bind="quantidade * valor"></span></p>
+    <p>Nome: {{pessoa.primeiroNome}}</p>
+    <p>Ultimo nome: <span ng-bind="pessoa.ultimoNome"></span></p>
+</div>

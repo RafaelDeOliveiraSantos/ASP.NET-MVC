@@ -1,0 +1,22 @@
+﻿@section scripts {
+    <script>
+        $(function() {
+            $("p:contains('pedra')")
+            .css('background-color', 'gray')
+            .css('color', 'red');
+
+            $("p:contains('pedra)").css({
+                backgroundColor: 'gray',
+                color: 'red'
+            });
+        });
+    </script>
+}
+
+<div>
+    <p>No meio do caminho tinha uma pedra</p>
+    <p>Tinha uma pedra no meio do caminho</p>
+    <p>Tinha uma pedra</p>
+    <p>Tinha uma</p>
+</div>
+
