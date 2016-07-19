@@ -1,0 +1,140 @@
+﻿<style>
+    form{
+        margin: 40px;
+    }
+    table{
+        margin-top: 20px;
+    }
+</style>
+<table class="table table-bordered table-condensed table-hover table-striped" >
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Modelo</th>
+            <th>Marca</th>
+            <th>Ano de Fabricação</th>
+            <th>Proprietário</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<form action="/" method="post">
+    <label for="Id" class="">Id</label>
+    <input type="text" name="Id" value="" class="form-control" />
+    <label for="Modelo" class="">Modelo</label>
+    <input type="text" name="Modelo" value="" class="form-control" />
+    <label for="Marca" class="">Marca</label>
+    <input type="text" name="Marca" value="" class="form-control" />
+    <label for="AnoFabricacao" class="">Ano de Fabricação</label>
+    <input type="text" name="AnoFabricacao" value="" class="form-control" />
+    <label for="PessoaModelId" class="">Proprietário</label>
+    <select name="PessoaModelId" class="form-control"></select>
+</form>
+<input type="submit" value="Gravar" class="btn btn-success" />
+
+@section scripts{
+    <script>
+        $(function () {
+            populaTabela();
+            populaSelect();
+                $('input[type=submit]').click(function (event) {
+                    event.preventDefault();
+                    enviar();
+                });
+        });
+
+        function populaTabela() {
+            $.ajax({
+                url: "/api/carro/lista",
+                type: 'GET',
+                dataType: 'json',
+                data: $('form').serialize(),
+                error: function (x, y, z) {
+                    console.log(x, y, z);
+                },
+                success: function (ret) {
+                    var html = '';
+                    for (var i = 0; i < ret.length; i++) {
+                        html += '<tr><td>' + ret[i].Id + '</td>';
+                        html += '<td>' + ret[i].Modelo + '</td>';
+                        html += '<td>' + ret[i].Marca + '</td>';
+                        html += '<td>' + ret[i].AnoFabricacao + '</td>';
+                        html += '<td>' + ret[i].Pessoa.Nome + '</td>';
+                        html += ['<td><a href="#" data-id="' +
+                            ret[i].Id +
+                            '" class="btn btn-danger btn-sm"' +
+                            'onClick="excluir(event, this);">Excluir</a>' +
+                            '<a href="#" class="btn btn-primary btn-sm"' +
+                            'onClick="alterar(event, this);">Alterar</a></td></tr>'
+                        ].join(',');
+                    }
+
+                    $('table tbody').empty().append(html);
+                }
+            });
+
+        }
+
+        function populaSelect() {
+            $.ajax({
+                url: "/api/pessoa/lista",
+                type: 'GET',
+                dataType: 'json',
+                data: $('form').serialize(),
+                error: function (x, y, z) {
+                    console.log(x, y, z);
+                },
+                success: function (ret) {
+                    var html = '';
+                    for (var i = 0; i < ret.length; i++) {
+                        html += [
+                            '<option value="' + ret[i].Id + '">',
+                            ret[i].Nome + '</option>'
+                        ].join('');
+                    }
+
+                    $('select').empty().append(html);
+                }
+            });
+
+        }
+
+        function enviar() {
+            $.ajax({
+                url: "/api/carro/novo",
+                type: 'POST',
+                dataType: 'json',
+                data: $('form').serialize(),
+                error: function(x,y,z){
+                    console.log(x,y,z);
+                },
+                success: function (ret) {
+                    populaTabela();
+                    populaSelect();
+                }
+            });
+        }
+
+        function excluir(event, $this) {
+            event.preventDefault();
+            var id = $($this).data('id');
+            if (confirm('Deseja excluir o registro ' + id)) {
+                $.ajax({
+                    url: "/api/carro/excluir/" + id,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    error: function (x, y, z) {
+                        console.log(x, y, z);
+                    },
+                    success: function (ret) {
+                        populaTabela();
+                    }
+                });
+            }
+        }
+    </script>
+}

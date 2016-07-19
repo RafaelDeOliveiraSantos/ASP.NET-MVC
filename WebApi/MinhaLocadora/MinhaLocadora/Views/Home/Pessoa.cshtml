@@ -1,0 +1,135 @@
+﻿<style>
+    form{
+        margin: 40px;
+    }
+    table{
+        margin-top: 20px;
+    }
+</style>
+<table class="table table-bordered table-condensed table-hover table-striped" >
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Cpf</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<form action="/" method="post">
+    <label for="Id" class="">Nome</label>
+    <input type="text" name="Nome" value="" class="form-control" />
+    <label for="Id" class="">Cpf</label>
+    <input type="text" name="Cpf" value="" class="form-control" />
+</form>
+<input type="submit" value="Gravar" class="btn btn-success" />
+
+@section scripts{
+    <script>
+        var alteracao = false;
+        var id = null;
+
+        $(function () {
+        populaTabela();
+            $('input[type=submit]').click(function (event) {
+                event.preventDefault();
+                enviar();
+            });
+        });
+
+        function populaTabela() {
+            $.ajax({
+                url: "/api/pessoa/lista",
+                type: 'GET',
+                dataType: 'json',
+                data: $('form').serialize(),
+                error: function (x, y, z) {
+                    console.log(x, y, z);
+                },
+                success: function (ret) {
+                    var html = '';
+                    for (var i = 0; i < ret.length; i++) {
+                        html += '<tr><td>' + ret[i].Id + '</td>';
+                        html += '<td>' + ret[i].Nome + '</td>';
+                        html += '<td>' + ret[i].Cpf + '</td>';
+                        html += '<td><a href="#" data-id="' +
+                            ret[i].Id +
+                            '" class="btn btn-danger btn-sm"' +
+                            'onClick="excluir(event, this);">Excluir</a>' +
+                            '<a href="#" class="btn btn-primary btn-sm"' +
+                            'onClick="alterar(event, this);">Alterar</a></td></tr>';
+                    }
+
+                    $('table tbody').empty().append(html);
+                }
+            });
+
+        }
+
+        function alterar(event, $this) {
+            event.preventDefault()
+            var tr = $($this).parent().parent();
+
+            alteracao = true;
+
+            id = tr.children()[0].innerText;
+            $('input[name=Nome]').val(tr.children()[1].innerText);
+            $('input[name=Cpf]').val(tr.children()[2].innerText);
+        }
+
+        function enviar() {
+            var dataToPost = null;
+            if (alteracao) {
+                dataToPost = {
+                    Id: id,
+                    Nome: $('input[name=Nome]').val(),
+                    Cpf: $('input[name=Cpf]').val(),
+                }
+            }
+            else {
+                dataToPost = {
+                    Nome: $('input[name=Nome]').val(),
+                    Cpf: $('input[name=Cpf]').val(),
+                }
+            }
+
+            $.ajax({
+                url: alteracao ? "/api/pessoa/alterar/" + id : "/api/pessoa/novo",
+                type: alteracao ? 'PUT' : 'POST',
+                dataType: 'json',
+                data: dataToPost,
+                error: function(x,y,z){
+                    console.log(x,y,z);
+                },
+                success: function (ret) {
+                    populaTabela();
+                    alteracao = false;
+                    id = null;
+                    $('input[type=text]').val('');
+                }
+            });
+        }
+
+        function excluir(event, $this) {
+            event.preventDefault();
+            var id = $($this).data('id');
+            if (confirm('Deseja excluir o registro ' + id)) {
+                $.ajax({
+                    url: "/api/pessoa/excluir/" + id,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    error: function (x, y, z) {
+                        console.log(x, y, z);
+                    },
+                    success: function (ret) {
+                        populaTabela();
+                    }
+                });
+            }
+        }
+    </script>
+}
